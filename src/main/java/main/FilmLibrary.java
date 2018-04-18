@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 /**
  * Created by dryzu on 05.04.2018.
  */
-@Component
+//@Component
 public class FilmLibrary implements IMovieCommands {
 	private UserManager userManager;
 	private IMovieStorage movieStorage;

@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan
 public class ApplicationConfiguration {
 
-	@Bean
+	@Bean(name = "films")
 	public FilmLibrary getFilmLibrrary() {
 		return FilmLibrary.createOracleStorageLibrary("jdbc:oracle:thin:@localhost:1521:xe");
 	}
