@@ -34,6 +34,7 @@ alter table Comments
         
 insert into USER_INFO values (1,'admin','admin','Administrator','true');
 
+
 --drop table Movie_INFO;
 --drop table Comments;
 --delete from USER_INFO where ID_USER > 1
