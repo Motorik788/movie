@@ -12,7 +12,7 @@ public class OracleUserStorage implements IUserStorage {
 	OracleConnectionHelper helper;
 
 	public OracleUserStorage(String connectionString) {
-		helper = new OracleConnectionHelper(connectionString);
+		helper = new OracleConnectionHelper(connectionString, "system", "1234");
 	}
 
 	public static User parseSetToUser(ResultSet set) throws Exception {
@@ -44,6 +44,7 @@ public class OracleUserStorage implements IUserStorage {
 
 		set.close();
 		return null;
+
 	}
 
 	@Override

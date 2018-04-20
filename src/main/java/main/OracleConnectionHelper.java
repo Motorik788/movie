@@ -9,10 +9,14 @@ import java.util.Locale;
  */
 public final class OracleConnectionHelper {
 
-	String connectionString;
+	private String connectionString;
+	private String user;
+	private String password;
 
-	public OracleConnectionHelper(String connectionString) {
+	public OracleConnectionHelper(String connectionString, String user, String password) {
 		this.connectionString = connectionString;
+		this.user = user;
+		this.password = password;
 		try {
 			Locale.setDefault(Locale.ENGLISH); // магия и подключение работает
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
@@ -27,13 +31,9 @@ public final class OracleConnectionHelper {
 		Connection con = null;
 		PreparedStatement statement = null;
 		try {
-			con = DriverManager.getConnection(connectionString, "system", "1234");
+			con = DriverManager.getConnection(connectionString, user, password);
 			statement = con.prepareStatement(prepareSQL);
-			if (params != null) {
-				for (int i = 0; i < params.size(); i++) {
-					statement.setObject(i + 1, params.get(i));
-				}
-			}
+			addParamsToPreparedStatement(params, statement);
 			set = statement.executeQuery();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
@@ -46,13 +46,9 @@ public final class OracleConnectionHelper {
 		Connection con = null;
 		PreparedStatement statement = null;
 		try {
-			con = DriverManager.getConnection(connectionString, "system", "1234");
+			con = DriverManager.getConnection(connectionString, user, password);
 			statement = con.prepareStatement(prepareSQL);
-			if (params != null) {
-				for (int i = 0; i < params.size(); i++) {
-					statement.setObject(i + 1, params.get(i));
-				}
-			}
+			addParamsToPreparedStatement(params, statement);
 			return statement.executeUpdate();
 		} catch (Exception ex) {
 			System.out.println(ex.getMessage());
@@ -65,5 +61,13 @@ public final class OracleConnectionHelper {
 			}
 		}
 		return -1;
+	}
+
+	private void addParamsToPreparedStatement(List<Object> params, PreparedStatement statement) throws Exception {
+		if (params != null) {
+			for (int i = 0; i < params.size(); i++) {
+				statement.setObject(i + 1, params.get(i));
+			}
+		}
 	}
 }

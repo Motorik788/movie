@@ -18,6 +18,9 @@ create table Movie_INFO
     DESCRIPTION varchar(255)   
 );
 
+alter table Movie_INFO
+    add  IS_ADULT number(1,0);
+
 create table Comments
 (
     ID varchar(10) primary key,
@@ -33,7 +36,6 @@ alter table Comments
     add constraint USER_FK foreign key(AUTHOR_ID) references USER_INFO(ID_USER);
         
 insert into USER_INFO values (1,'admin','admin','Administrator','true');
-
 
 --drop table Movie_INFO;
 --drop table Comments;

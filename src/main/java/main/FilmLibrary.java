@@ -1,5 +1,8 @@
 package main;
 
+import main.BasicStorage.BasicMovieStorage;
+import main.BasicStorage.BasicUserStorage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.BufferedReader;
@@ -14,11 +17,12 @@ import java.util.stream.Stream;
 /**
  * Created by dryzu on 05.04.2018.
  */
-//@Component
+@Component
 public class FilmLibrary implements IMovieCommands {
 	private UserManager userManager;
 	private IMovieStorage movieStorage;
 
+	@Autowired
 	private FilmLibrary(IUserStorage userStorage, IMovieStorage movieStorage) {
 		this.userManager = new UserManager(userStorage);
 		this.movieStorage = movieStorage;
@@ -72,15 +76,35 @@ public class FilmLibrary implements IMovieCommands {
 		return movieStorage.search(name, date);
 	}
 
-	public String detail(String imdb) {
-		FilmInfo filmInfo = movieStorage.getMovie(imdb);
-		if (filmInfo != null)
-			return filmInfo.toString();
-		return null;
+	@Override
+	public List<FilmInfo> search(String name, int fromYear, int toYear, float fromRating, float toRating, boolean isAdult) {
+		return movieStorage.search(name, fromYear, toYear, fromRating, toRating, isAdult);
+	}
+
+	public FilmInfo detail(String imdb) {
+		return movieStorage.getMovie(imdb);
 	}
 
 	public void addReview(String imdb, String text, float rating) {
 		movieStorage.addReview(userManager.getCurrentUser(), imdb, text, rating, new Date());
+	}
+
+	@Override
+	public void changeReview(String idComment, String text, float rating) {
+		Comment comment = movieStorage.getComment(idComment);
+		if (comment != null) {
+			if (comment.getAuthor().getId() == userManager.getCurrentUser().getId() || userManager.getCurrentUser() instanceof AdminUser) {
+				movieStorage.changeReview(idComment, text, rating);
+			}
+		}
+	}
+
+	@Override
+	public List<Comment> getUserComments() {
+		User user = userManager.getCurrentUser();
+		if (user != null)
+			return movieStorage.getUserComments(user.getId());
+		else return null;
 	}
 
 	public void deleteReview(String idComment) {

@@ -15,6 +15,7 @@ public class FilmInfo {
 	public Date RealizeDate;
 	public float Rating;
 	public String Description;
+	public  boolean IsAdult;
 
 	public List<Comment> Comments = new ArrayList<>();
 

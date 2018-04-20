@@ -11,24 +11,10 @@ public class UserManager implements IUserCommands {
 		this.storage = storage;
 	}
 
-	//private static main.UserManager instance;
-
-//	private main.UserManager() {
-//	}
 
 	public User getCurrentUser() {
 		return current;
 	}
-
-//	public static main.UserManager Instance() {
-//		if (instance == null) {
-//			synchronized (main.UserManager.class) {
-//				if (instance == null)
-//					instance = new main.UserManager();
-//			}
-//		}
-//		return instance;
-//	}
 
 	@Override
 	public boolean register(String name, String login, String password) {

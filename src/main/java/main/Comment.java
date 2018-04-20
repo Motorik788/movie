@@ -1,16 +1,24 @@
 package main;
 
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Date;
 
 /**
  * Created by dryzu on 05.04.2018.
  */
+@XmlRootElement
 public class Comment {
+	//@XmlElement
 	public String Id;
+	//@XmlElement
 	private Date createDate;
+	//@XmlElement
 	private User author;
-	private String text;
-	private float rating;
+	@XmlElement
+	public String text;
+	@XmlElement
+	public float rating;
 
 
 	public Comment(String id, User author, String text, Date createDate, float rating) {
@@ -20,6 +28,9 @@ public class Comment {
 		this.rating = rating;
 		this.Id = id;
 		//this.Id = (author.hashCode() - text.hashCode()) + "";
+	}
+
+	public Comment() {
 	}
 
 	public String getText() {
